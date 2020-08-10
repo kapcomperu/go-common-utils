@@ -4,34 +4,35 @@ import "time"
 
 type AbstractModel struct {
 	/* START METADATA */
-	TxId          string `json:"txId,omitempty"`
-	RowNum        int    `json:"rowNum,omitempty"`
-	NewEntry      bool   `json:"newEntry,omitempty,omitempty"`
-	UpdatedRecord bool   `json:"updatedRecord,omitempty"`
-	RemovedRecord bool   `json:"removedRecord,omitempty"`
-	NewFile       bool   `json:"newFile,omitempty"`
-	FileName      string `json:"fileName,omitempty"`
-	ContentType   string `json:"contentType,omitempty"`
+	TxId          string `json:"txId,omitempty" bson:"txId,omitempty"`
+	RowNum        int    `json:"rowNum,omitempty" bson:"rowNum,omitempty"`
+	CreatedRecord bool   `json:"createdRecord,omitempty" bson:"createdRecord,omitempty"`
+	UpdatedRecord bool   `json:"updatedRecord,omitempty" bson:"updatedRecord,omitempty"`
+	DeletedRecord bool   `json:"deletedRecord,omitempty" bson:"deletedRecord,omitempty"`
+	NewFile       bool   `json:"newFile,omitempty" bson:"newFile,omitempty"`
+	FileName      string `json:"fileName,omitempty" bson:"fileName,omitempty"`
+	ContentType   string `json:"contentType,omitempty" bson:"contentType,omitempty"`
 	/* END METADATA */
 
-	StateId     int64     `json:"stateId,omitempty"`
-	StateName   string    `json:"stateName,omitempty"`
-	CreatedAt   time.Time `json:"createdAt,omitempty"`
-	UpdatedAt   time.Time `json:"updatedAt,omitempty"`
-	DeletedAt   time.Time `json:"deletedAt,omitempty"`
-	CreatedBy   string    `json:"createdBy,omitempty"`
-	UpdatedBy   string    `json:"updatedBy,omitempty"`
-	DeletedBy   string    `json:"deletedBy,omitempty"`
-	FlagRemoved int       `json:"flagRemoved,omitempty"`
+	/* START AUDIT */
+	StateId     string    `json:"stateId,omitempty" bson:"stateId,omitempty"`
+	StateName   string    `json:"stateName,omitempty" bson:"stateName,omitempty"`
+	CreatedAt   time.Time `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	UpdatedAt   time.Time `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
+	DeletedAt   time.Time `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
+	CreatedBy   string    `json:"createdBy,omitempty" bson:"createdBy,omitempty"`
+	UpdatedBy   string    `json:"updatedBy,omitempty" bson:"updatedBy,omitempty"`
+	DeletedBy   string    `json:"deletedBy,omitempty" bson:"deletedBy,omitempty"`
+	MadeAt      time.Time `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
+	/* END AUDIT */
 }
 
 func (m *AbstractModel) PopulateCommon(user string) {
 
-	if m.NewEntry {
+	if m.CreatedRecord {
 		m.CreatedAt = time.Now()
 		m.DeletedAt = time.Time{}
 		m.UpdatedAt = time.Time{}
-		m.StateId = 1
 		m.CreatedBy = user
 	}
 
@@ -40,14 +41,14 @@ func (m *AbstractModel) PopulateCommon(user string) {
 		m.UpdatedBy = user
 	}
 
-	if m.RemovedRecord {
+	if m.DeletedRecord {
 		m.DeletedAt = time.Now()
-		m.FlagRemoved = 1
 		m.DeletedBy = user
 	}
 
-}
+	m.MadeAt = time.Now()
 
+}
 type AbstractModelCriteria struct {
 	StateId       string
 	SortColumn    string

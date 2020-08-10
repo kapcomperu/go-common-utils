@@ -11,6 +11,5 @@ type AbstractEntity struct {
 	CreatedBy   string    `json:"createdBy,omitempty" gorm:"size:500"`
 	UpdatedBy   string    `json:"updatedBy,omitempty" gorm:"size:500"`
 	DeletedBy   string    `json:"deletedBy,omitempty" gorm:"size:500"`
-	FlagRemoved int      `json:"flagRemoved,omitempty" gorm:"default:0"`
 	/* END AUDIT */
 }

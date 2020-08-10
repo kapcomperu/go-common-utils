@@ -27,7 +27,6 @@ type AbstractDocument struct {
 	UpdatedBy   string    `json:"updatedBy,omitempty" bson:"updatedBy,omitempty"`
 	DeletedBy   string    `json:"deletedBy,omitempty" bson:"deletedBy,omitempty"`
 	MadeAt      time.Time `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
-	FlagRemoved int       `json:"flagRemoved,omitempty" bson:"flagRemoved,omitempty"`
 	/* END AUDIT */
 }
 
@@ -37,7 +36,6 @@ func (m *AbstractDocument) PopulateCommon(user string) {
 		m.CreatedAt = time.Now()
 		m.DeletedAt = time.Time{}
 		m.UpdatedAt = time.Time{}
-		m.StateId = "01"
 		m.CreatedBy = user
 	}
 
@@ -48,7 +46,6 @@ func (m *AbstractDocument) PopulateCommon(user string) {
 
 	if m.DeletedRecord {
 		m.DeletedAt = time.Now()
-		m.FlagRemoved = 1
 		m.DeletedBy = user
 	}
 
