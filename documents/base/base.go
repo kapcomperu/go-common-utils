@@ -30,23 +30,20 @@ type AbstractDocument struct {
 	/* END AUDIT */
 }
 
-func (m *AbstractDocument) PopulateCommon(user string) {
+func (m *AbstractDocument) PopulateCommon() {
 
 	if m.CreatedRecord {
 		m.CreatedAt = time.Now()
 		m.DeletedAt = time.Time{}
 		m.UpdatedAt = time.Time{}
-		m.CreatedBy = user
 	}
 
 	if m.UpdatedRecord {
 		m.UpdatedAt = time.Now()
-		m.UpdatedBy = user
 	}
 
 	if m.DeletedRecord {
 		m.DeletedAt = time.Now()
-		m.DeletedBy = user
 	}
 
 	m.MadeAt = time.Now()
