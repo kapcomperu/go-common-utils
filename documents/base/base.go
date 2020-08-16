@@ -18,15 +18,16 @@ type AbstractDocument struct {
 	/* END METADATA */
 
 	/* START AUDIT */
-	StateId     string    `json:"stateId,omitempty" bson:"stateId,omitempty"`
-	StateName   string    `json:"stateName,omitempty" bson:"stateName,omitempty"`
-	CreatedAt   time.Time `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
-	UpdatedAt   time.Time `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
-	DeletedAt   time.Time `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
-	CreatedBy   string    `json:"createdBy,omitempty" bson:"createdBy,omitempty"`
-	UpdatedBy   string    `json:"updatedBy,omitempty" bson:"updatedBy,omitempty"`
-	DeletedBy   string    `json:"deletedBy,omitempty" bson:"deletedBy,omitempty"`
-	MadeAt      time.Time `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
+	StateId   string    `json:"stateId,omitempty" bson:"stateId,omitempty"`
+	StateName string    `json:"stateName,omitempty" bson:"stateName,omitempty"`
+	CreatedAt time.Time `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
+	DeletedAt time.Time `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
+	CreatedBy string    `json:"createdBy,omitempty" bson:"createdBy,omitempty"`
+	UpdatedBy string    `json:"updatedBy,omitempty" bson:"updatedBy,omitempty"`
+	DeletedBy string    `json:"deletedBy,omitempty" bson:"deletedBy,omitempty"`
+	MadeAt    time.Time `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
+	Removed   bool      `json:"removed,omitempty" bson:"removed,omitempty"`
 	/* END AUDIT */
 }
 
