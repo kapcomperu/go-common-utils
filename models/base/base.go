@@ -2,7 +2,7 @@ package base
 
 import "time"
 
-type AbstractModel struct {
+type MetaData struct {
 	/* START METADATA */
 	TxId          string `json:"txId,omitempty" bson:"txId,omitempty"`
 	RowNum        int    `json:"rowNum,omitempty" bson:"rowNum,omitempty"`
@@ -27,7 +27,7 @@ type AbstractModel struct {
 	/* END AUDIT */
 }
 
-func (m *AbstractModel) PopulateCommon(user string) {
+func (m *MetaData) PopulateCommon(user string) {
 
 	if m.CreatedRecord {
 		m.CreatedAt = time.Now()
