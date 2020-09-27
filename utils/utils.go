@@ -1,14 +1,16 @@
 package utils
 
 import (
+	"encoding/json"
 	mongopagination "github.com/gobeam/mongo-go-pagination"
+	"github.com/kapcomperu/go-auth0-utils/auth"
 	"github.com/kapcomperu/go-common-utils/models/base"
 	"go.mongodb.org/mongo-driver/bson"
 	"net/http"
 	"strings"
 )
 
-func getSortDirection(sortBy string) int {
+func GetSortDirection(sortBy string) int {
 
 	if strings.ToLower(sortBy) == "asc" {
 		return 1
@@ -17,7 +19,7 @@ func getSortDirection(sortBy string) int {
 	}
 
 }
-func toDoc(v interface{}) (doc *bson.D, err error) {
+func ToDoc(v interface{}) (doc *bson.D, err error) {
 	data, err := bson.Marshal(v)
 	if err != nil {
 		return
@@ -27,7 +29,7 @@ func toDoc(v interface{}) (doc *bson.D, err error) {
 	return
 }
 
-func toPageable(paginatedData mongopagination.PaginatedData) *base.Pageable {
+func ToPageable(paginatedData mongopagination.PaginatedData) *base.Pageable {
 	var paging *base.Pageable
 
 	paging.Total = paginatedData.Pagination.Total
@@ -39,7 +41,7 @@ func toPageable(paginatedData mongopagination.PaginatedData) *base.Pageable {
 	return paging
 }
 
-func prepareResponseList(models []interface{}, pageable *base.Pageable, err error) base.ResponseDataListPageable {
+func PrepareResponseList(models []interface{}, pageable *base.Pageable, err error) base.ResponseDataListPageable {
 	var response base.ResponseDataListPageable
 	if err != nil {
 		response = base.ResponseDataListPageable{Status: false, Messages: []string{err.Error()}, StatusCode: http.StatusInternalServerError}
@@ -58,7 +60,7 @@ func prepareResponseList(models []interface{}, pageable *base.Pageable, err erro
 	return response
 }
 
-func prepareResponseOneRecord(model interface{}, err error) base.ResponseDataList {
+func PrepareResponseOneRecord(model interface{}, err error) base.ResponseDataList {
 	var response base.ResponseDataList
 	if err != nil {
 		response = base.ResponseDataList{Status: false, Messages: []string{err.Error()}, StatusCode: http.StatusInternalServerError}
@@ -73,5 +75,20 @@ func prepareResponseOneRecord(model interface{}, err error) base.ResponseDataLis
 		}
 	}
 	return response
+}
+
+func ResponseInsufficientScope(w http.ResponseWriter, statusCode int) {
+	message := "Insufficient scope."
+	response := auth.Response{Message: message}
+
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	w.Write(jsonResponse)
 }
 
