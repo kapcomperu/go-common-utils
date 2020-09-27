@@ -79,6 +79,6 @@ type ResponseDataListPageable struct {
 	Status     bool          `json:"status,omitempty"`
 	StatusId   string        `json:"statusId,omitempty"`
 	Messages   []string      `json:"messages,omitempty"`
-	Paging     Pageable     `json:"paging,omitempty"`
+	Paging     *Pageable     `json:"paging,omitempty"`
 	StatusCode int           `json:"statusCode,omitempty"`
 }
