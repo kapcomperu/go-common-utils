@@ -1,55 +1,54 @@
 package base
 
 import (
-	"strconv"
 	"time"
 )
 
 type MetaData struct {
 	/* START METADATA */
-	TxId          string `json:"txId,omitempty" bson:"txId,omitempty"`
-	RowNum        int    `json:"rowNum,omitempty" bson:"rowNum,omitempty"`
-	CreatedRecord bool   `json:"createdRecord,omitempty" bson:"createdRecord,omitempty"`
-	UpdatedRecord bool   `json:"updatedRecord,omitempty" bson:"updatedRecord,omitempty"`
-	DeletedRecord bool   `json:"deletedRecord,omitempty" bson:"deletedRecord,omitempty"`
-	NewFile       bool   `json:"newFile,omitempty" bson:"newFile,omitempty"`
-	FileName      string `json:"fileName,omitempty" bson:"fileName,omitempty"`
-	ContentType   string `json:"contentType,omitempty" bson:"contentType,omitempty"`
+	TxId          string `json:"txId,omitempty"`
+	RowNum        int    `json:"rowNum,omitempty"`
+	CreatedRecord bool   `json:"createdRecord,omitempty"`
+	UpdatedRecord bool   `json:"updatedRecord,omitempty"`
+	DeletedRecord bool   `json:"deletedRecord,omitempty"`
+	NewFile       bool   `json:"newFile,omitempty"`
+	FileName      string `json:"fileName,omitempty"`
+	ContentType   string `json:"contentType,omitempty"`
 	/* END METADATA */
 
 	/* START AUDIT */
-	StateId     string    `json:"stateId,omitempty" bson:"stateId,omitempty"`
-	StateName   string    `json:"stateName,omitempty" bson:"stateName,omitempty"`
-	CreatedAt   TimestampTime `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
-	UpdatedAt   TimestampTime `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
-	DeletedAt   TimestampTime `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
-	CreatedBy   string    `json:"createdBy,omitempty" bson:"createdBy,omitempty"`
-	UpdatedBy   string    `json:"updatedBy,omitempty" bson:"updatedBy,omitempty"`
-	DeletedBy   string    `json:"deletedBy,omitempty" bson:"deletedBy,omitempty"`
-	MadeAt      TimestampTime `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
+	StateId     string    `json:"stateId,omitempty"`
+	StateName   string    `json:"stateName,omitempty"`
+	CreatedAt   time.Time `json:"createdAt,omitempty" example:"2021-01-30T08:30:00Z"`
+	UpdatedAt   time.Time `json:"updatedAt,omitempty" example:"2021-01-30T08:30:00Z"`
+	DeletedAt   time.Time `json:"deletedAt,omitempty" example:"2021-01-30T08:30:00Z"`
+	CreatedBy   string    `json:"createdBy,omitempty"`
+	UpdatedBy   string    `json:"updatedBy,omitempty"`
+	DeletedBy   string    `json:"deletedBy,omitempty"`
+	MadeAt      time.Time `json:"madeAt,omitempty" example:"2021-01-30T08:30:00Z"`
 	/* END AUDIT */
 }
 
 func (m *MetaData) PopulateCommon(user string) {
 
 	if m.CreatedRecord {
-		m.CreatedAt.Time = time.Now()
-		m.DeletedAt.Time = time.Time{}
-		m.UpdatedAt.Time = time.Time{}
+		m.CreatedAt = time.Now()
+		m.DeletedAt = time.Time{}
+		m.UpdatedAt = time.Time{}
 		m.CreatedBy = user
 	}
 
 	if m.UpdatedRecord {
-		m.UpdatedAt.Time = time.Now()
+		m.UpdatedAt = time.Now()
 		m.UpdatedBy = user
 	}
 
 	if m.DeletedRecord {
-		m.DeletedAt.Time = time.Now()
+		m.DeletedAt = time.Now()
 		m.DeletedBy = user
 	}
 
-	m.MadeAt.Time = time.Now()
+	m.MadeAt = time.Now()
 
 }
 type AbstractModelCriteria struct {
@@ -84,24 +83,4 @@ type ResponseDataListPageable struct {
 	Messages   []string      `json:"messages,omitempty"`
 	Paging     *Pageable     `json:"paging,omitempty"`
 	StatusCode int           `json:"statusCode,omitempty"`
-}
-
-type TimestampTime struct {
-	time.Time
-}
-
-///implement encoding.JSON.Marshaler interface
-func (t *TimestampTime) MarshalJSON() ([]byte, error) {
-	bin := make([]byte, 16)
-	bin = strconv.AppendInt(bin[:0], t.Time.Unix(), 10)
-	return bin, nil
-}
-
-func (t *TimestampTime) UnmarshalJSON(bin []byte) error {
-	v, err := strconv.ParseInt(string(bin), 10, 64)
-	if err != nil {
-		return err
-	}
-	t.Time = time.Unix(v, 0)
-	return nil
 }
