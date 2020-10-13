@@ -20,36 +20,36 @@ type MetaData struct {
 	/* START AUDIT */
 	StateId     string    `json:"stateId,omitempty" bson:"stateId,omitempty"`
 	StateName   string    `json:"stateName,omitempty" bson:"stateName,omitempty"`
-	CreatedAt   time.Time `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
-	UpdatedAt   time.Time `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
-	DeletedAt   time.Time `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
+	CreatedAt   TimestampTime `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	UpdatedAt   TimestampTime `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
+	DeletedAt   TimestampTime `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
 	CreatedBy   string    `json:"createdBy,omitempty" bson:"createdBy,omitempty"`
 	UpdatedBy   string    `json:"updatedBy,omitempty" bson:"updatedBy,omitempty"`
 	DeletedBy   string    `json:"deletedBy,omitempty" bson:"deletedBy,omitempty"`
-	MadeAt      time.Time `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
+	MadeAt      TimestampTime `json:"madeAt,omitempty" bson:"madeAt,omitempty"`
 	/* END AUDIT */
 }
 
 func (m *MetaData) PopulateCommon(user string) {
 
 	if m.CreatedRecord {
-		m.CreatedAt = time.Now()
-		m.DeletedAt = time.Time{}
-		m.UpdatedAt = time.Time{}
+		m.CreatedAt.Time = time.Now()
+		m.DeletedAt.Time = time.Time{}
+		m.UpdatedAt.Time = time.Time{}
 		m.CreatedBy = user
 	}
 
 	if m.UpdatedRecord {
-		m.UpdatedAt = time.Now()
+		m.UpdatedAt.Time = time.Now()
 		m.UpdatedBy = user
 	}
 
 	if m.DeletedRecord {
-		m.DeletedAt = time.Now()
+		m.DeletedAt.Time = time.Now()
 		m.DeletedBy = user
 	}
 
-	m.MadeAt = time.Now()
+	m.MadeAt.Time = time.Now()
 
 }
 type AbstractModelCriteria struct {
