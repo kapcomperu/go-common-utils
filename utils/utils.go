@@ -29,8 +29,8 @@ func ToDoc(v interface{}) (doc *bson.D, err error) {
 	return
 }
 
-func ToPageable(paginatedData mongopagination.PaginatedData) *base.Pageable {
-	var paging *base.Pageable
+func ToPageable(paginatedData mongopagination.PaginatedData) base.Pageable {
+	var paging base.Pageable
 
 	paging.Total = paginatedData.Pagination.Total
 	paging.Page = paginatedData.Pagination.Page
@@ -41,7 +41,7 @@ func ToPageable(paginatedData mongopagination.PaginatedData) *base.Pageable {
 	return paging
 }
 
-func PrepareResponseList(models []interface{}, pageable *base.Pageable, err error) base.ResponseDataListPageable {
+func PrepareResponseList(models []interface{}, pageable base.Pageable, err error) base.ResponseDataListPageable {
 	var response base.ResponseDataListPageable
 	if err != nil {
 		response = base.ResponseDataListPageable{Status: false, Messages: []string{err.Error()}, StatusCode: http.StatusInternalServerError}
