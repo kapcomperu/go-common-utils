@@ -19,13 +19,13 @@ type MetaData struct {
 	/* START AUDIT */
 	StateId     string    `json:"stateId,omitempty"`
 	StateName   string    `json:"stateName,omitempty"`
-	CreatedAt   time.Time `json:"createdAt,omitempty" example:"2021-01-30T08:30:00Z"`
-	UpdatedAt   time.Time `json:"updatedAt,omitempty" example:"2021-01-30T08:30:00Z"`
-	DeletedAt   time.Time `json:"deletedAt,omitempty" example:"2021-01-30T08:30:00Z"`
+	CreatedAt   time.Time `json:"createdAt,omitempty"`
+	UpdatedAt   time.Time `json:"updatedAt,omitempty"`
+	DeletedAt   time.Time `json:"deletedAt,omitempty"`
 	CreatedBy   string    `json:"createdBy,omitempty"`
 	UpdatedBy   string    `json:"updatedBy,omitempty"`
 	DeletedBy   string    `json:"deletedBy,omitempty"`
-	MadeAt      time.Time `json:"madeAt,omitempty" example:"2021-01-30T08:30:00Z"`
+	MadeAt      time.Time `json:"madeAt,omitempty"`
 	/* END AUDIT */
 }
 
